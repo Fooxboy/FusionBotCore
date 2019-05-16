@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>Fooxboy</Authors>
+    <Company>Fooxboy production</Company>
+    <Description>Ядро для создания ботов для ВКонтакте с поддержкой longpoll и callback  на C# и всех .Net языков.</Description>
+    <Copyright>Fooxboy 2019</Copyright>
+    <PackageProjectUrl>https://vk.com/fooxboy</PackageProjectUrl>
+    <RepositoryUrl>https://vk.com/fooxboy</RepositoryUrl>
+    <PackageTags>C#, VKontakte, Bot, Core, VkAPI</PackageTags>
+    <AssemblyVersion>1.2.0.0</AssemblyVersion>
+    <FileVersion>1.2.0.0</FileVersion>
+    <Version>1.2</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+  </ItemGroup>
+
+</Project>
