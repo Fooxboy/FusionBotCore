@@ -89,7 +89,7 @@ namespace Fooxboy.FusionBot.BotsLongPoll
         private void StartedLongPoll()
         {
             Log.Wr("Начало цикла получения новых сообщений...");
-            BackgroundTasks.StartUpdateTimerNewTsAndServer();
+
 
             while (_isStarted)
             {
@@ -98,11 +98,12 @@ namespace Fooxboy.FusionBot.BotsLongPoll
                     var json = Request();
                     if (json != null)
                     {
+                       
                         RootBotsLongPollModel responseLongPoll;
+                       
                         Log.Wr("Попытка десериализации RootBotsLongPollModel");
                         responseLongPoll = JsonConvert.DeserializeObject<RootBotsLongPollModel>(json);
-                        _ts = responseLongPoll.Ts;
-                        if (BackgroundTasks.Timer == 15)
+                        if (responseLongPoll.Ts == 0)
                         {
                             Log.Wr("Возникла ошибка при обработке ответа...");
                             Log.War("Обновление key,server, ts");
@@ -111,10 +112,10 @@ namespace Fooxboy.FusionBot.BotsLongPoll
                             _ts = value.response.Ts;
                             _key = value.response.Key;
                             _server = value.response.Server;
-                            BackgroundTasks.Timer = 0;
-                            _ts = responseLongPoll.Ts;
                             goto ExitFromUpdater;
                         }
+
+                        _ts = responseLongPoll.Ts;
                         Log.Wr("Обработка полученных обновлений");
                         Log.Wr($"Получено обновлений: {responseLongPoll.Updates.Count}");
                         foreach (var update in responseLongPoll.Updates)
@@ -205,7 +206,7 @@ namespace Fooxboy.FusionBot.BotsLongPoll
             {
                 Log.Wr("Запрос к серверу ВКонтакте для получения обновлений...");
                 var url = $"{_server}?act=a_check&key={_key}&ts={_ts}&wait=20";
-                Log.Json($"[REQUEST]: {url}");
+                Log.Json($"[REQUEST]: {url} \n");
                 var json = String.Empty;
                 var request = HttpWebRequest.Create(url);
                 request.Timeout = 25000;
@@ -217,7 +218,7 @@ namespace Fooxboy.FusionBot.BotsLongPoll
                         json = reader.ReadToEnd();
                     }
                 }
-                Log.Json(json);
+                Log.Json($"[RESPONSE]: {json} \n");
                 Log.Wr("Ответ от сервера ВКонтакте получен.");
                 waitTime = 0;
                 return json;
